@@ -44,9 +44,9 @@ z = []
 w1 = 2 * np.random.rand(H, N) - 1
 w2 = 2 * np.random.rand(K, H) - 1
 
-is_bias = input("Czy chcesz przeprowadzić naukę z biasem [True/False]: ")
-is_bias = bool(is_bias)
-# is_bias = True
+# is_bias = input("Czy chcesz przeprowadzić naukę z biasem [True/False]: ")
+# is_bias = bool(is_bias)
+is_bias = False
 
 if is_bias:
     bias1 = 2 * np.random.rand(H) - 1
