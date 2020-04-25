@@ -1,12 +1,33 @@
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 
 def sigma(x_f):
     sig = 1 / (1 + np.exp(-x_f))
     return sig
 
+
+if len(sys.argv) == 1:
+    H = int(input("Podaj ilosc neuronow ukrytych: "))
+    epochs = int(input("Podaj ilość epok: "))
+    eta = float(input("Podaj krok: "))
+    is_bias = bool(input("Czy uczyć z biasem [True/False]: "))
+    coeff_momentum = float(input("Podaj momentum: "))
+else:
+    H = int(sys.argv[1])
+    epochs = int(sys.argv[2])
+    eta = float(sys.argv[3])
+    if len(sys.argv) >= 5:
+        is_bias = bool(sys.argv[4])
+        if len(sys.argv) == 6:
+            coeff_momentum = float(sys.argv[5])
+        else:
+            coeff_momentum = 0.0
+    else:
+        is_bias = False
+        coeff_momentum = 0.0
 
 start_time = datetime.datetime.now()
 
@@ -22,16 +43,9 @@ x = np.loadtxt("transformation.txt")
 # Ilość danych do szkolenia")
 M = len(x)
 
-# H = int(input("Podaj ilosc neuronow ukrytych"))
-H = 2
-
 # Losowanie wag
 w1 = 2 * np.random.rand(H, N) - 1
 w2 = 2 * np.random.rand(K, H) - 1
-
-# is_bias = input("Czy chcesz przeprowadzić naukę z biasem [True/False]: ")
-# is_bias = bool(is_bias)
-is_bias = True
 
 if is_bias:
     bias1 = 2 * np.random.rand(H) - 1
@@ -42,11 +56,6 @@ else:
     bias2 = 0
     str_bias = "\u2718"
 
-# eta = float(input("Podaj współczynnik nauki (polecam 0.1): "))
-eta = 0.1
-# coeff_momentum = float(input("Podaj współczynnik momentum, przedział (0.0 ; 0.9): "))
-coeff_momentum = 0.6
-
 # Tworzenie list dla momentum
 momentum_w1 = np.zeros((H, N))
 momentum_w2 = np.zeros((K, H))
@@ -54,9 +63,6 @@ momentum_bias1 = np.zeros(H)
 momentum_bias2 = np.zeros(K)
 
 errors = []
-
-epochs = 2000
-# epochs = int(input("Podaj ilość epok: "))
 
 for epoch in range(epochs):
 
